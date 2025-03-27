@@ -1,5 +1,5 @@
 # peek
-## Overview
+## Overview
 peek is a python tool to search directories or specific files for strings that are defined in a wordlist or argument.
 
 ```

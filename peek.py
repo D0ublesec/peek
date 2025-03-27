@@ -122,7 +122,7 @@ def save_results(word_counts, output_file):
     """Save the matched results to a file."""
     with open(output_file, 'w') as f:
         for word, occurrences in word_counts.items():
-            f.write(f"Original Word: {word}, Occurrences:\n")
+            f.write(f"String: {word}\n")
             for count, file_path in occurrences:
                 f.write(f"    File: {file_path}, Count: {count}\n")
 
@@ -153,7 +153,7 @@ def print_results_table(word_counts, snippets, verbose=False):
         # Print the top border
         if verbose:
             print("-" * (30 + 12 + file_path_column_width + 60))
-            print(f"| {'Searched Word':<30} | {'Occurrences':<12} | {'File Path':<{file_path_column_width}} | {'Snippet':<60} |")
+            print(f"| {'Searched Word':<30} | {'Occurrences':<12} | {'File Path':<{file_path_column_width}} | {'Snippet':<47} |")
         else:
             print("-" * (30 + 12 + file_path_column_width + 20))
             print(f"| {'Searched Word':<30} | {'Occurrences':<12} | {'File Path':<{file_path_column_width}} |")
