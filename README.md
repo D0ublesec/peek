@@ -1,6 +1,6 @@
 # peek
 ## Overview
-peek is a python tool to search directories or specific files for strings that are defined in a wordlist or argument.
+Peek is a python tool to search directories or specific files for strings that are defined in a wordlist or as a single argument.
 
 ```
 python3 /opt/github/peek/peek.py --help
@@ -24,12 +24,23 @@ options:
 ```
 
 ## Examples
-### Searching a single file for string matches using a wordlist and printing a snippet where the result was found.
+### Searching the target directory recursively for string matches using a wordlist and printing a snippet where the result was found.
+Wordlist:
 ```
-python3 ./peek.py -f <file> -w <wordlist> -v
+password1234
+secret
 ```
+Command:
+```
+python3 ./peek.py -d <directory> -w <wordlist> -v
+```
+Output:
+![image](https://github.com/user-attachments/assets/11b58c36-6c56-4e00-ab79-fa3ed7e2f88b)
 
-### Searching the current directory recursively for string matches
+### Searching the target directory recursively for string matches and printing a snippet where the result was found.
+Command:
 ```
-python3 ./peek.py -d . -s 'password123' 
+python3 ./peek.py -d <directory> -s 'password1234' -v
 ```
+Output:
+![image](https://github.com/user-attachments/assets/91bcd6d4-7a3d-4dab-99ec-ee8dab230587)
