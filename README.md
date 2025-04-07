@@ -3,7 +3,7 @@
 Peek is a python tool to search directories or specific files for strings that are defined in a wordlist or as a single argument.
 
 ```
-python3 /opt/github/peek/peek.py --help
+python3 ./peek.py --help
 usage: peek.py [-h] (-f FILE | -d DIR) (-w WORDLIST | -s STRING) [-v] [-o OUTPUT] [--case-sensitive] [--no-banner]
 
 Search a file or directory for words from a wordlist or a string.
