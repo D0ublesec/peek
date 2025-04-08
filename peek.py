@@ -12,9 +12,14 @@ def load_wordlist(wordlist_file=None, word_string=None):
     if word_string:
         return {word_string}  # Treat the string as a single word
     elif wordlist_file:
+        # Check if the file exists
+        if not os.path.isfile(wordlist_file):
+            print(f"Error: The specified wordlist file '{wordlist_file}' was not found.")
+            return set()  # Return empty set if the file is not found
         with open(wordlist_file, 'r') as f:
             return {line.strip() for line in f if line.strip()}
     return set()  # Return empty set if neither is provided
+
 
 def get_snippet(file_content, word, case_sensitive=False, context_size=30):
     """Get a snippet of text around the word and highlight the matched word."""
@@ -23,10 +28,15 @@ def get_snippet(file_content, word, case_sensitive=False, context_size=30):
         word = word.lower()
 
     # Search for the word and get a snippet around it
-    match = re.search(r'.{0,' + str(context_size) + r'}' + re.escape(word) + r'.{0,' + str(context_size) + r'}', file_content)
-    
-    if match:
-        snippet = match.group(0)
+    matches = list(re.finditer(re.escape(word), file_content))  # Find all matches, not just the first one
+    if matches:
+        # Take the first match (you could customize this further)
+        match = matches[0]
+        
+        # Extract a context around the match
+        start_pos = max(0, match.start() - context_size)
+        end_pos = min(len(file_content), match.end() + context_size)
+        snippet = file_content[start_pos:end_pos]
         
         # Find the position of the matched word in the snippet
         match_start = snippet.lower().find(word.lower())
@@ -66,8 +76,8 @@ def search_file(file_path, wordlist, case_sensitive=False, verbose=False, stop_e
 
     for word in wordlist:
         search_word = word if case_sensitive else word.lower()
-        # This regex will match the word even if it is adjacent to other words
-        count = len(re.findall(r'(?<!\w)' + re.escape(search_word) + r'(?!\w)', file_content_str))  # Exact match
+        # Match substring anywhere in the text
+        count = len(re.findall(re.escape(search_word), file_content_str))  # Match substring anywhere
         if count > 0:
             word_counts[word] = word_counts.get(word, [])
             word_counts[word].append((count, file_path))  # Store the count and the file path
@@ -216,6 +226,11 @@ def main():
         wordlist = load_wordlist(wordlist_file=args.wordlist)
     else:
         print("Error: You must specify either a wordlist file or a string to search.")
+        return
+
+    # Check if the wordlist is empty after loading
+    if not wordlist:
+        print("Error: The wordlist is empty. Please provide a valid wordlist file or string.")
         return
 
     word_counts = {}
